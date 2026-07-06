@@ -1,11 +1,58 @@
 import pandas as pd
 import numpy as np
-from engine.collector import map_fields, filter_missing, clean_data
+import pytest
+from engine.collector import (
+    map_fields, filter_missing, clean_data,
+    FIELD_MAP, THS_DEBT_METRICS, THS_BENEFIT_METRICS, THS_CASH_METRICS,
+)
 
-# 验证 `collector.py` 中三个不依赖网络不调 akshare 的纯数据处理函数
-# 采用 mock 数据单元测试，采集流水线中数据清洗环节的正确性
 
-# 验证字段重命名映射正确
+def test_field_map_covers_all_metrics():
+    all_metrics = set(THS_DEBT_METRICS + THS_BENEFIT_METRICS + THS_CASH_METRICS)
+    mapped = set(FIELD_MAP.keys()) & all_metrics
+    uncovered = all_metrics - mapped
+    assert not uncovered, f"FIELD_MAP 未覆盖以下 metrics: {uncovered}"
+
+
+def test_field_map_values_no_duplicates():
+    values = [v for k, v in FIELD_MAP.items()
+              if k in (THS_DEBT_METRICS + THS_BENEFIT_METRICS + THS_CASH_METRICS)]
+    assert len(values) == len(set(values)), "FIELD_MAP 中存在重复的中文列名"
+
+
+@pytest.mark.integration
+def test_ths_debt_api_field_names():
+    import akshare as ak
+    df = ak.stock_financial_debt_new_ths(symbol="000001", indicator="按报告期")
+    assert df is not None and not df.empty
+    actual = set(df["metric_name"].unique())
+    expected = set(THS_DEBT_METRICS)
+    missing = expected - actual
+    assert not missing, f"资产负债表 API 缺少预期指标: {missing}"
+
+
+@pytest.mark.integration
+def test_ths_benefit_api_field_names():
+    import akshare as ak
+    df = ak.stock_financial_benefit_new_ths(symbol="000001", indicator="按报告期")
+    assert df is not None and not df.empty
+    actual = set(df["metric_name"].unique())
+    expected = set(THS_BENEFIT_METRICS)
+    missing = expected - actual
+    assert not missing, f"利润表 API 缺少预期指标: {missing}"
+
+
+@pytest.mark.integration
+def test_ths_cash_api_field_names():
+    import akshare as ak
+    df = ak.stock_financial_cash_new_ths(symbol="000001", indicator="按报告期")
+    assert df is not None and not df.empty
+    actual = set(df["metric_name"].unique())
+    expected = set(THS_CASH_METRICS)
+    missing = expected - actual
+    assert not missing, f"现金流量表 API 缺少预期指标: {missing}"
+
+
 def test_map_fields():
     raw = pd.DataFrame([{
         "Code": "600000", "Name": "浦发银行",
@@ -28,7 +75,7 @@ def test_map_fields():
     assert result.loc[0, "流动负债"] == 18218
     assert result.loc[0, "经营现金流量"] == -67670
 
-# 验证缺失值过滤
+
 def test_filter_missing():
     df = pd.DataFrame([
         {"股票代码": "600000", "股票名称": "A", "主营收入": 100, "净利润": 10, "总资产": 200, "总负债": 100, "股东权益": 100, "流动资产": 50, "流动负债": 25, "经营现金流量": 5, "行业分类": "银行", "财报发布日期": "20251025", "财报所属期间": "三季报", "上市日期": "20121009"},
@@ -38,7 +85,7 @@ def test_filter_missing():
     assert len(result) == 1
     assert result.iloc[0]["股票代码"] == "600000"
 
-# 验证数据清洗
+
 def test_clean_data():
     df = pd.DataFrame([{
         "股票代码": "600000", "股票名称": "A", "主营收入": 10, "净利润": 0, "总资产": 200, "总负债": 100, "股东权益": 50, "流动资产": 50, "流动负债": 25, "经营现金流量": 5, "投资收益": np.nan, "营业外收支": np.nan, "主营收入同比增长率": 600, "行业分类": "银行", "财报发布日期": "20251025", "财报所属期间": "三季报", "上市日期": "20121009",

@@ -1,5 +1,6 @@
 import json
 import time
+from typing import Optional
 from pathlib import Path
 
 import akshare as ak
@@ -63,7 +64,7 @@ def load_sw_mapping(force_rebuild: bool = False) -> dict:
     return mapping
 
 
-def get_sw_industry(code: str, mapping: dict | None = None) -> str:
+def get_sw_industry(code: str, mapping: Optional[dict] = None) -> str:
     if mapping is None:
         mapping = load_sw_mapping()
     code = str(code).zfill(6)

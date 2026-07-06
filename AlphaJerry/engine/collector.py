@@ -1,4 +1,5 @@
 import time
+from typing import Optional
 import pandas as pd
 import numpy as np
 from pathlib import Path
@@ -61,7 +62,6 @@ THS_CASH_METRICS = [
     "financing_cash_flow_net",
 ]
 
-
 def _extract_from_ths(df: pd.DataFrame, metrics: list, extract_yoy: bool = False) -> dict:
     if df is None or df.empty:
         return {}
@@ -69,6 +69,13 @@ def _extract_from_ths(df: pd.DataFrame, metrics: list, extract_yoy: bool = False
     latest = df[df["report_date"] == latest_date]
     row = {}
     row["PubDate"] = str(latest_date)
+
+    actual_metrics = set(latest["metric_name"].unique())
+    expected = set(metrics)
+    unmatched = expected - actual_metrics
+    if unmatched:
+        print(f"  [WARN] API 未返回预期指标: {unmatched}")
+
     for _, r in latest.iterrows():
         if r["metric_name"] in metrics:
             val = r["value"]
@@ -122,7 +129,7 @@ def clean_data(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
-def collect_single_stock(code: str) -> dict | None:
+def collect_single_stock(code: str) -> Optional[dict]:
     row = {"股票代码": code}
 
     for attempt in range(RETRY_MAX):
@@ -161,7 +168,7 @@ def _log_failure(code: str, error: str):
         f.write(f"{today_str()} | {code} | {error}\n")
 
 
-def collect_all(output_path: Path | None = None):
+def collect_all(output_path: Optional[Path] = None):
     print("获取全部 A 股列表...")
     stock_list = ak.stock_info_a_code_name()
     name_map = dict(zip(stock_list["code"], stock_list["name"]))
