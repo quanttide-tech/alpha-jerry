@@ -139,7 +139,7 @@ python -m pytest tests/test_collector.py -v
 python tests\verify_collect.py
 ```
 
-- [ ] **Step 7：提交**
+- [x] **Step 7：提交**
 
 ```bash
 git add AlphaJerry/engine/collector.py AlphaJerry/tests/test_collector.py AlphaJerry/utils/sw_mapper.py AlphaJerry/config/industry_map.py

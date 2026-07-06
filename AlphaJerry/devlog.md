@@ -12,11 +12,9 @@
 - [x] 构建`README.md`梳理目前代码功能
 - [x] 修改`config\industry_map.py`的名称映射，使之更为合理，并增强可读性，对空值进行处理
 - [ ] 搞懂 AI 生成的`engine\collector.py`
-- [ ] 
-
-
+  - [ ] 只采集最新数据
+  - [ ] 比对技术文档，确保`engine\collector.py`严格对应原始 akshare 数据库字段，并有错误预警机制
 - [ ] `engine\collector.py`爬取的字段名保留单位
-- [ ] 严格对应原始 akshare 数据库字段
 
 
 ### 任务 2
@@ -25,6 +23,8 @@
 - [ ] 及时更新：`sw_mapping.json`、全股票读取
 - [ ] 按公众号编码规范重构
   - [ ] `CHANGELOG.md`的定义
+
+- [ ] 成熟的项目架构特点总结
 
 ### 质控
 
