@@ -42,23 +42,23 @@ uv run pytest tests/ -v -m "not integration"
 
 ## 功能
 
-| 步骤 | 功能 | 产出 |
-|------|------|------|
-| ① 采集 | akshare 四个接口爬全 A 股最新财报 | `data/财务/YYMMDD.xlsx` |
-| ② 评分 | 一票否决 + 三维度评分（成长/稳健/回报）加权 | `data/财务/YYMMDD-评分.xlsx` |
-| ③ 评级 | 综合分 → 皇冠明珠/优秀白马/鸡肋/垃圾 | `data/财务/YYMMDD-评级.xlsx` |
-| ④ 报告 | Top 20 + 公司分类 + AI 点评 | `data/分析/YYMMDD-荐股.xlsx` |
+| 步骤 | 功能 | 产出 | 状态 |
+|------|------|------|------|
+| ① 采集 | akshare 四个接口爬全 A 股最新财报 | `data/财务/YYMMDD.xlsx` | ✅ |
+| ② 评分 | 一票否决 + 三维度评分（成长/稳健/回报）加权 | `data/财务/YYMMDD-评分.xlsx` | 🏗️ |
+| ③ 评级 | 综合分 → 皇冠明珠/优秀白马/鸡肋/垃圾 | `data/财务/YYMMDD-评级.xlsx` | 🏗️ |
+| ④ 报告 | Top 20 + 公司分类 + AI 点评 | `data/分析/YYMMDD-荐股.xlsx` | 🏗️ |
 
 **扩展功能：** 热点追踪（微博/百度 + LLM 分析）、持股监控（评分变化 → 操作建议）、邮件推送、定时调度（9:00 / 17:00）。
 
 ## CLI 命令
 
 ```bash
-uv run python -m alpha_jerry.engine.collector     # 采集
-uv run python -m alpha_jerry.engine.scorer        # 评分
-uv run python -m alpha_jerry.engine.rater         # 评级
-uv run python -m alpha_jerry.engine.reporter      # 荐股报告
-uv run pytest tests/ -v                           # 测试
+uv run python -m alpha_jerry.engine.collector     # ✅ 采集（已实现）
+uv run python -m alpha_jerry.engine.scorer        # 🏗️ 评分（开发中）
+uv run python -m alpha_jerry.engine.rater         # 🏗️ 评级（开发中）
+uv run python -m alpha_jerry.engine.reporter      # 🏗️ 荐股报告（开发中）
+uv run pytest tests/ -v                           # ✅ 测试（已实现）
 ```
 
 ## 成本
@@ -67,6 +67,7 @@ LLM 日耗 ≈ ¥0.05（20 只点评 × 1 次 + 热点分析 × 2 次）。
 
 ## 文档
 
+- [用户指南](docs/user-guide.md) — 安装、使用流程、数据文件说明
 - [开发指南](docs/dev-guide.md) — 特征工程、评分规则、评级标准
 - [路线图](ROADMAP.md) — 版本规划
 - [贡献指南](CONTRIBUTING.md) — 测试 / 运行 / 发布
