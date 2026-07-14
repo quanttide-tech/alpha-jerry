@@ -1,7 +1,7 @@
 import sys
 sys.path.insert(0, "src")
 import akshare as ak
-from alpha_jerry.engine.collector import collect_single_stock, map_fields, filter_missing, clean_data
+from alpha_jerry.engine.collector import collect_single_stock, map_fields, filter_missing, clean_data, DATA_SOURCE
 from alpha_jerry.utils.formulas import calc_derived_indicators
 from alpha_jerry.utils.helpers import today_str, write_xlsx
 from alpha_jerry.config.settings import FINANCIAL_DIR
@@ -76,6 +76,6 @@ remaining = [c for c in df.columns if c not in existing_cols]
 df = df[existing_cols + remaining]
 
 output_path = FINANCIAL_DIR / f"{today_str()}_verify5.xlsx"
-write_xlsx(df, output_path)
+write_xlsx(df, output_path, metadata=DATA_SOURCE)
 print(f"输出文件: {output_path}")
 print("验证通过！")
