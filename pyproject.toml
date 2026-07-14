@@ -20,6 +20,7 @@ dev = [
     "gradio>=4.0.0",
     "schedule>=1.2.0",
     "click>=8.0.0",
+    "pytest-cov>=7.1.0",
 ]
 
 [tool.pytest.ini_options]

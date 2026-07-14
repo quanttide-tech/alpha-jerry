@@ -55,7 +55,7 @@ def test_ths_cash_api_field_names():
 
 def test_map_fields():
     raw = pd.DataFrame([{
-        "Code": "600000", "Name": "浦发银行",
+        "code": "600000", "name": "浦发银行",
         "operating_income_total": 263952, "operating_profit": 10284,
         "net_profit": 9397, "assets_total": 492021,
         "total_debt": 73865, "holder_equity_total": 186236,
