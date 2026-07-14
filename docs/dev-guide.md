@@ -17,6 +17,53 @@
 | `ak.stock_profile_cninfo(symbol)` | 巨潮 | 个股概况：上市日期 |
 | `sw_index_first_info()` + `index_component_sw(code)` | 申万指数 | 全 A 股 → 申万一级行业映射（缓存至 `data/缓存/sw_mapping.json`） |
 
+### 数据来源与可靠性验证
+
+数据经 akshare 间接调用上游公开接口。以下是各来源的原始链接，可用于手动验证数据是否准确。
+
+#### 股票列表
+
+直接访问交易所官网可核实股票代码是否存在：
+
+- 深交所：`https://www.szse.cn/market/product/stock/list/index.html`
+- 上交所：`https://www.sse.com.cn/assortment/stock/list/share/`
+
+#### 三张财务报表
+
+同花顺个股财务页，URL 中的 `000001` 替换为任意股票代码：
+
+`https://basic.10jqka.com.cn/astockpc/astockmain/index.html#/financen?code=000001`
+
+可手动核对采集出的主营收入、净利润、总资产等数值是否与页面一致。
+
+#### 公司概况
+
+巨潮资讯 API 接口（返回 JSON）：
+
+`https://webapi.cninfo.com.cn/api/sysapi/p_sysapi1133`
+
+验证方法：打开 `https://webapi.cninfo.com.cn/#/company`，搜索股票代码查看上市日期。
+
+#### 申万行业分类
+
+行业列表页（浏览器可访问）：
+
+`https://legulegu.com/stockdata/sw-industry-overview`
+
+成分股接口（当前上游不稳定，有概率返回空数据）：
+
+`https://www.swsresearch.com/institute-sw/api/index_publish/details/component_stocks/`
+
+#### 集成测试验证
+
+运行集成测试可自动验证 6 个数据源是否可用：
+
+```bash
+uv run pytest integrated_tests/ -v -m integration
+```
+
+测试覆盖：股票列表数 > 4000、同花顺三表字段名匹配、巨潮上市日期可解析、申万行业列表返回 31 个。
+
 ### 特征工程
 
 | 字段名（金融缩写） | 来源/公式 | 列属性 | 取值 |
