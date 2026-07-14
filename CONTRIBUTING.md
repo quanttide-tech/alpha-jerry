@@ -22,7 +22,8 @@ cp .env.example .env
 | 层 | 工具 | 位置 | 职责 |
 |---|------|------|------|
 | **单元测试** | `pytest` | `tests/` | 数据映射、过滤、清洗、指标计算逻辑 |
-| **集成测试** | `pytest -m integration` | `integrated_tests/` | akshare API 字段名验证、真实采集验证 |
+| **集成测试** | `pytest -m integration` | `integrated_tests/` | akshare API 字段名验证 |
+| **示例脚本** | 手动运行 | `examples/` | 真实采集验证 |
 
 ### 运行
 
@@ -37,7 +38,7 @@ uv run pytest integrated_tests/ -v -m integration
 uv run pytest tests/ integrated_tests/ -v
 
 # 验证采集（采样 5 只）
-uv run python tests/verify_collect.py
+uv run python examples/verify_collect.py
 ```
 
 ### 目录约定
@@ -45,10 +46,11 @@ uv run python tests/verify_collect.py
 ```
 tests/              # 单元测试（不依赖外部 API）
 ├── test_collector.py    # 采集引擎测试
-├── test_formulas.py     # 指标计算测试
-└── verify_collect.py    # 真实接口验证脚本
+└── test_formulas.py     # 指标计算测试
 integrated_tests/   # 集成测试（调外部 API）
 └── test_collector.py    # akshare 接口字段名验证
+examples/          # 示例脚本
+└── verify_collect.py    # 真实采集验证
 ```
 
 ### 命名规范
