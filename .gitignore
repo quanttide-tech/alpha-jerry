@@ -8,8 +8,10 @@ data/财务/*.xlsx
 data/分析/*.xlsx
 data/持股/*.xlsx
 data/热点/*.md
+data/缓存/*.json
 data/日志/*.log
 .DS_Store
 Thumbs.db
 .pytest_cache/
-.python-version
+.coverage
+htmlcov/
