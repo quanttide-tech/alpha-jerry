@@ -1,5 +1,20 @@
 # Contributing
 
+## 运行须知
+
+### 初次运行
+
+- 全量采集约 5000 只股票，每只 4 次 API 调用，耗时约 60-90 分钟
+- 后续运行仅更新 PubDate 晚于上次记录的股票（增量）
+- 单只失败 3 次跳过，记录到 `data/日志/failures.log`
+
+### 环境变量
+
+```bash
+cp .env.example .env
+# 填入 DEEPSEEK_API_KEY（热点分析和点评需要）
+```
+
 ## 测试
 
 ### 测试分层
@@ -12,10 +27,10 @@
 ### 运行
 
 ```bash
-# 单元测试
+# 单元测试（不调外部 API）
 uv run pytest tests/ -v -m "not integration"
 
-# 全部测试（含集成）
+# 全部测试
 uv run pytest tests/ -v
 
 # 集成测试单独
@@ -29,7 +44,7 @@ uv run python tests/verify_collect.py
 
 ```
 tests/
-├── conftest.py          # 共享 fixture 和工具检测
+├── conftest.py          # 共享 fixture
 ├── test_collector.py    # 采集引擎测试
 ├── test_formulas.py     # 指标计算测试
 └── verify_collect.py    # 真实接口验证脚本
@@ -42,12 +57,19 @@ tests/
 | 测试文件 | `test_*.py` | `test_collector.py` |
 | 测试函数 | `test_<场景>` | `test_veto_pass` |
 
+## 定时调度
+
+```bash
+# 每日 9:00 和 17:00 自动执行：热点追踪 → 持股监控 → 推送
+```
+
+实现参考 `ROADMAP.md` v0.4.0。
+
 ## 发布
 
 ```bash
 # 更新 CHANGELOG.md
 # 更新 pyproject.toml 中 version
-# 提交 + 打标签
 git commit -m "chore: bump version to x.y.z"
 git tag vx.y.z
 git push --tags
