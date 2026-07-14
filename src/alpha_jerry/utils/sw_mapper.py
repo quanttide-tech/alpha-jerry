@@ -6,8 +6,8 @@ from pathlib import Path
 import akshare as ak
 import pandas as pd
 
-from config.settings import CACHE_DIR
-from config.industry_map import SW_TO_GROUP, DEFAULT_GROUP
+from alpha_jerry.config.settings import CACHE_DIR
+from alpha_jerry.config.industry_map import SW_TO_GROUP, DEFAULT_GROUP
 
 SW_CACHE_PATH = CACHE_DIR / "sw_mapping.json"
 SW_FIRST_CODES = [

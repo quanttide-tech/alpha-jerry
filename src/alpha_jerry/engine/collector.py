@@ -6,17 +6,17 @@ from pathlib import Path
 
 import akshare as ak
 
-from config.settings import FINANCIAL_DIR, LOG_DIR, RETRY_MAX, REQUEST_DELAY
-from utils.formulas import calc_derived_indicators
-from utils.helpers import today_str, write_xlsx
-from config.industry_map import map_industry
-from utils.sw_mapper import load_sw_mapping, get_sw_industry
+from alpha_jerry.config.settings import FINANCIAL_DIR, LOG_DIR, RETRY_MAX, REQUEST_DELAY
+from alpha_jerry.utils.formulas import calc_derived_indicators
+from alpha_jerry.utils.helpers import today_str, write_xlsx
+from alpha_jerry.config.industry_map import map_industry
+from alpha_jerry.utils.sw_mapper import load_sw_mapping, get_sw_industry
 
 REQUIRED_FIELDS = ["股票代码", "股票名称", "主营收入", "净利润", "总资产", "总负债", "股东权益", "流动资产", "流动负债", "经营现金流量", "行业分类", "财报发布日期", "财报所属期间", "上市日期"]
 DEFAULT_ZERO_FIELDS = ["投资收益", "营业外收支", "长期负债", "固定资产", "无形资产", "投资现金流量", "筹资现金流量"]
 
 FIELD_MAP = {
-    "code": "股票代码", 
+    "code": "股票代码",
     "name": "股票名称",
     "operating_income_total": "主营收入",
     "operating_profit": "营业利润",

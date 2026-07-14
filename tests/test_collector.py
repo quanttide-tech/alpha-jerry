@@ -1,7 +1,7 @@
 import pandas as pd
 import numpy as np
 import pytest
-from engine.collector import (
+from alpha_jerry.engine.collector import (
     map_fields, filter_missing, clean_data,
     FIELD_MAP, THS_DEBT_METRICS, THS_BENEFIT_METRICS, THS_CASH_METRICS,
 )

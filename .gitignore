@@ -1,4 +1,5 @@
 venv/
+.venv/
 __pycache__/
 *.pyc
 *.pyo
@@ -10,3 +11,5 @@ data/热点/*.md
 data/日志/*.log
 .DS_Store
 Thumbs.db
+.pytest_cache/
+.python-version

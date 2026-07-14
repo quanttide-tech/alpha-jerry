@@ -1,12 +1,12 @@
 import sys
-sys.path.insert(0, ".")
+sys.path.insert(0, "src")
 import akshare as ak
-from engine.collector import collect_single_stock, map_fields, filter_missing, clean_data
-from utils.formulas import calc_derived_indicators
-from utils.helpers import today_str, write_xlsx
-from config.settings import FINANCIAL_DIR
-from config.industry_map import map_industry
-from utils.sw_mapper import load_sw_mapping, get_sw_industry
+from alpha_jerry.engine.collector import collect_single_stock, map_fields, filter_missing, clean_data
+from alpha_jerry.utils.formulas import calc_derived_indicators
+from alpha_jerry.utils.helpers import today_str, write_xlsx
+from alpha_jerry.config.settings import FINANCIAL_DIR
+from alpha_jerry.config.industry_map import map_industry
+from alpha_jerry.utils.sw_mapper import load_sw_mapping, get_sw_industry
 import pandas as pd
 import numpy as np
 import random

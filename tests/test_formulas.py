@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-from utils.formulas import safe_divide, calc_derived_indicators
+from alpha_jerry.utils.formulas import safe_divide, calc_derived_indicators
 
 
 def test_safe_divide_normal():
