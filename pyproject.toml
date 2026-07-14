@@ -24,7 +24,7 @@ dev = [
 ]
 
 [tool.pytest.ini_options]
-testpaths = ["tests"]
+testpaths = ["tests", "integrated_tests"]
 markers = [
     "integration: marks tests that call external APIs (akshare)",
 ]
