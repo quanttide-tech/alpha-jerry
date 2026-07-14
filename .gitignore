@@ -16,3 +16,4 @@ Thumbs.db
 .coverage
 htmlcov/
 *.egg-info/
+.python-version
